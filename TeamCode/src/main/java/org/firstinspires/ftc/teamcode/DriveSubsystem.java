@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Const;
-
 public class DriveSubsystem {
 
     private DcMotor BL;
@@ -12,8 +10,6 @@ public class DriveSubsystem {
     private DcMotor FL;
     private DcMotor FR;
     private Odometry odometry;
-
-    public static boolean aligned;
 
     public DriveSubsystem(HardwareMap hardwareMap, Odometry odometry) {
 
