@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-@TeleOp(name = "Main Teleop")
+@TeleOp(name = "Octoray Teleop")
 public class Teleop extends LinearOpMode{
 
 
@@ -20,12 +20,12 @@ public class Teleop extends LinearOpMode{
         waitForStart();
 
         while (opModeIsActive()) {
-            double forward = -gamepad1.left_stick_y;
-            double strafe = gamepad1.left_stick_x;
-            double turn = gamepad1.right_stick_x;
+            odometry.updateOdometry();
+            double strafe = gamepad1.left_stick_y;
+            double forward = -gamepad1.left_stick_x;
+            double turn = -gamepad1.right_stick_x;
 
-            driveSubsystem.drive(forward, strafe, turn);
-        }
+            driveSubsystem.drive(forward, strafe, turn);        }
 
     }
 
