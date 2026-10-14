@@ -9,7 +9,7 @@ public class Transfer {
     private boolean shooterFlag=false;
 
     public Transfer(HardwareMap hardwareMap){
-        transferMotor=hardwareMap.get(DcMotor.class, "intake");
+        transferMotor=hardwareMap.get(DcMotor.class, "transfer");
     }
 
     public void setIntakeFlag(boolean newIntakeFlag){

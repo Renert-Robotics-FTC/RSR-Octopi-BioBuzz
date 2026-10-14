@@ -11,7 +11,7 @@ public class Shooter {
     private DcMotor shooterMotor;
 
     public Shooter(HardwareMap hardwareMap){
-        shooterMotor=hardwareMap.get(DcMotor.class, "intake");
+        shooterMotor=hardwareMap.get(DcMotor.class, "shooter");
     }
 
     public boolean getShooterFlag(){
