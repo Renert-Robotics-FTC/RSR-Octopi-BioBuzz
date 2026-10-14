@@ -13,7 +13,7 @@ public class Teleop extends LinearOpMode{
         odometry.initializeOdometry(hardwareMap);
         Intake intake =new Intake(hardwareMap);
         Shooter shooter=new Shooter(hardwareMap);
-        //Transfer transfer=new Transfer(hardwareMap);
+        Transfer transfer=new Transfer(hardwareMap);
 
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, odometry);
 
@@ -32,13 +32,11 @@ public class Teleop extends LinearOpMode{
 
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
             intake.setIntakeFlag(gamepad1.b);
-            //transfer.setIntakeFlag(gamepad1.b);
-            //transfer.setShooterFlag(gamepad1.right_trigger_pressed);
 
 
 
             shooter.updatePower();
-            //transfer.updatePower();
+            transfer.updatePower(gamepad1.right_trigger_pressed || gamepad1.b);
             intake.updatePower();
 
         }

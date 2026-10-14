@@ -20,8 +20,8 @@ public class Transfer {
         shooterFlag=newShooterFlag;
     }
 
-    public void updatePower(){
-        if (intakeFlag==true || shooterFlag==true) {
+    public void updatePower(boolean transferFlag){
+        if (transferFlag==true) {
             transferMotor.setPower(0.5);
         }else {
             transferMotor.setPower(0);
