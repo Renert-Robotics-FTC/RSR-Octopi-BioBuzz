@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
@@ -10,6 +11,7 @@ public class Intake {
 
     public Intake(HardwareMap hardwareMap){
         intakeMotor=hardwareMap.get(DcMotor.class, "intake");
+        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public boolean getIntakeFlag(){
         return intakeFlag;

@@ -29,7 +29,7 @@ public class Shooter {
         }*/
         if(shooterFlag==true){
             //shooterMotor.setPower(Range.clip(Constants.ShooterConstants.MAX_EXIT_SPEED*distance*Math.sqrt(9.81/(2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))), 0, 1));
-            shooterMotor.setPower(0.5);
+            shooterMotor.setPower(0.7);
         }
         else {
             shooterMotor.setPower(0);

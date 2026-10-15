@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Transfer {
@@ -10,6 +11,7 @@ public class Transfer {
 
     public Transfer(HardwareMap hardwareMap){
         transferMotor=hardwareMap.get(DcMotor.class, "transfer");
+        transferMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void setIntakeFlag(boolean newIntakeFlag){
@@ -22,7 +24,7 @@ public class Transfer {
 
     public void updatePower(boolean transferFlag){
         if (transferFlag==true) {
-            transferMotor.setPower(0.5);
+            transferMotor.setPower(1);
         }else {
             transferMotor.setPower(0);
         }
