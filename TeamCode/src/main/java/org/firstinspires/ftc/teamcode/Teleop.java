@@ -36,15 +36,15 @@ public class Teleop extends LinearOpMode{
                 }else{shooter.setShooterFlag(false);}
             }
 
-            if (gamepad1.b) {
+            /*if (gamepad1.b) {
                 if (intake.getIntakeFlag()==true) {
                     intake.setIntakeFlag(false);
                 }else {
                     intake.setIntakeFlag(true);
                 }
-            }
+            }*/
 
-
+            intake.setIntakeFlag(gamepad1.left_trigger_pressed);
 
             shooter.updatePower();
             transfer.updatePower(gamepad1.left_bumper || intake.getIntakeFlag());
