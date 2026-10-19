@@ -11,6 +11,9 @@ public class Teleop extends LinearOpMode{
     public void runOpMode(){
         Odometry odometry = new Odometry();
         odometry.initializeOdometry(hardwareMap);
+        Intake intake =new Intake(hardwareMap);
+        Shooter shooter=new Shooter(hardwareMap);
+        Transfer transfer=new Transfer(hardwareMap);
 
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, odometry);
 
@@ -25,7 +28,36 @@ public class Teleop extends LinearOpMode{
             double forward = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
 
-            driveSubsystem.drive(forward, strafe, turn);        }
+            driveSubsystem.drive(forward, strafe, turn);
+
+            /*if (gamepad1.right_bumper) {
+                if (shooter.getShooterFlag()==false) {
+                    shooter.setShooterFlag(true);
+                }else{shooter.setShooterFlag(false);}
+            }*/
+
+            /*if (gamepad1.b) {
+                if (intake.getIntakeFlag()==true) {
+                    intake.setIntakeFlag(false);
+                }else {
+                    intake.setIntakeFlag(true);
+                }
+            }*/
+
+            shooter.setShooterFlag(gamepad1.right_trigger_pressed);
+            intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
+            intake.setReverse(gamepad1.b);
+
+            shooter.updatePower();
+            transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag());
+            intake.updatePower();
+
+
+            telemetry.addData("velocity", shooter.getShooterVelocity());
+            telemetry.addData("shooterflag", shooter.getShooterFlag());
+            telemetry.update();
+
+        }
 
     }
 
