@@ -30,11 +30,11 @@ public class Teleop extends LinearOpMode{
 
             driveSubsystem.drive(forward, strafe, turn);
 
-            if (gamepad1.right_bumper) {
+            /*if (gamepad1.right_bumper) {
                 if (shooter.getShooterFlag()==false) {
                     shooter.setShooterFlag(true);
                 }else{shooter.setShooterFlag(false);}
-            }
+            }*/
 
             /*if (gamepad1.b) {
                 if (intake.getIntakeFlag()==true) {
@@ -44,11 +44,18 @@ public class Teleop extends LinearOpMode{
                 }
             }*/
 
+            shooter.setShooterFlag(gamepad1.right_trigger_pressed);
             intake.setIntakeFlag(gamepad1.left_trigger_pressed);
+            intake.setReverse(gamepad1.b);
 
             shooter.updatePower();
-            transfer.updatePower(gamepad1.left_bumper || intake.getIntakeFlag());
+            transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag());
             intake.updatePower();
+
+
+            telemetry.addData("velocity", shooter.getShooterVelocity());
+            telemetry.addData("shooterflag", shooter.getShooterFlag());
+            telemetry.update();
 
         }
 
