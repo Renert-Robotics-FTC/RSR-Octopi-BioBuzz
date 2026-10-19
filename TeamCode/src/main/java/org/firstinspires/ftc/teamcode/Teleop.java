@@ -45,7 +45,7 @@ public class Teleop extends LinearOpMode{
             }*/
 
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
-            intake.setIntakeFlag(gamepad1.left_trigger_pressed);
+            intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
             intake.setReverse(gamepad1.b);
 
             shooter.updatePower();
