@@ -11,11 +11,14 @@ public class Teleop extends LinearOpMode{
     public void runOpMode(){
         Odometry odometry = new Odometry();
         odometry.initializeOdometry(hardwareMap);
-        Intake intake =new Intake(hardwareMap);
-        Shooter shooter=new Shooter(hardwareMap);
-        Transfer transfer=new Transfer(hardwareMap);
 
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, odometry);
+
+        Shooter shooter=new Shooter(hardwareMap);
+        Intake intake =new Intake(hardwareMap);
+        Transfer transfer=new Transfer(hardwareMap);
+
+        int svmod=0;
 
         telemetry.addLine("Ready!");
         telemetry.update();
@@ -24,8 +27,8 @@ public class Teleop extends LinearOpMode{
 
         while (opModeIsActive()) {
             odometry.updateOdometry();
-            double strafe = -gamepad1.left_stick_y;
-            double forward = gamepad1.left_stick_x;
+            double strafe = gamepad1.left_stick_y;
+            double forward = -gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
 
             driveSubsystem.drive(forward, strafe, turn);
@@ -46,14 +49,22 @@ public class Teleop extends LinearOpMode{
 
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
             intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
-            intake.setReverse(gamepad1.b);
+            intake.setReverse(gamepad1.b||gamepad1.x);
+            if (gamepad1.a){
+                svmod--;
+            }
+            if (gamepad1.y){
+                svmod++;
+            }
 
-            shooter.updatePower();
-            transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag());
+
+            shooter.updatePower(1421+svmod);
+            transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.x);
             intake.updatePower();
 
 
             telemetry.addData("velocity", shooter.getShooterVelocity());
+            telemetry.addData("theoretical velocity", 1421+svmod);
             telemetry.addData("shooterflag", shooter.getShooterFlag());
             telemetry.update();
 

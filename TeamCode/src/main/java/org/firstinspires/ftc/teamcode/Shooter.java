@@ -30,7 +30,7 @@ public class Shooter {
     public double getShooterVelocity(){
         return shooterMotor.getVelocity();
     }
-    public void updatePower(/*double distance*/){
+    public void updatePower(/*double distance, */int velocity){
         /*if ((2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))<=0){
             shooterMotor.setPower(0);
             return;
@@ -45,6 +45,6 @@ public class Shooter {
             //servoBlocker.setDirection(Servo.Direction.FORWARD);
             servoBlocker.setPosition(0.5);
         }
-        shooterMotor.setPower(shooterMotor.getVelocity() < 1500 ? 1:0);
+        shooterMotor.setPower(shooterMotor.getVelocity() < velocity ? 1:0);
     }
 }
