@@ -12,6 +12,11 @@ public class Shooter {
 
     private DcMotorEx shooterMotor;
     private Servo servoBlocker;
+    private double lastError=0;
+    public static double time=0;
+    public static double lastTime=0;
+    public static double dTime=0;
+    public static double i=0;
 
     public Shooter(HardwareMap hardwareMap){
         shooterMotor=hardwareMap.get(DcMotorEx.class, "shooter");
@@ -30,6 +35,15 @@ public class Shooter {
     public double getShooterVelocity(){
         return shooterMotor.getVelocity();
     }
+
+    public double calcShooterPID(){
+        double error=1421-shooterMotor.getVelocity();
+        double p=error*Constants.ShooterConstants.KP;
+        double d=(error-lastError)/dTime;
+        lastError=error;
+        i+=dTime*error;
+        return p+i+d;
+    }
     public void updatePower(/*double distance, */int velocity){
         /*if ((2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))<=0){
             shooterMotor.setPower(0);
@@ -43,8 +57,9 @@ public class Shooter {
         }
         else {
             //servoBlocker.setDirection(Servo.Direction.FORWARD);
-            servoBlocker.setPosition(0.5);
+            servoBlocker.setPosition(0);
         }
-        shooterMotor.setPower(shooterMotor.getVelocity() < velocity ? 1:0);
+        //shooterMotor.setPower(shooterMotor.getVelocity() < velocity ? 1:0);
+        shooterMotor.setPower(calcShooterPID());
     }
 }

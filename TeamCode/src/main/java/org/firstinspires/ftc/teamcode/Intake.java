@@ -34,7 +34,7 @@ public class Intake {
         if (isReversed==true){
             intakeMotor.setPower(-1);
         }else if (unjam==true){
-            intakeMotor.setPower(-0.5);
+            intakeMotor.setPower(-0.6);
         }
         else if(intakeFlag==true){
             intakeMotor.setPower(1);

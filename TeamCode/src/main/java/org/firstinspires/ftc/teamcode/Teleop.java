@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class Teleop extends LinearOpMode{
 
 
+
     @Override
     public void runOpMode(){
         Odometry odometry = new Odometry();
@@ -49,7 +50,8 @@ public class Teleop extends LinearOpMode{
 
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
             intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
-            intake.setReverse(gamepad1.b||gamepad1.x);
+            intake.setReverse(gamepad1.x);
+            intake.setUnjam(gamepad1.b);
             if (gamepad1.a){
                 svmod--;
             }
@@ -58,10 +60,10 @@ public class Teleop extends LinearOpMode{
             }
 
 
+
             shooter.updatePower(1421+svmod);
             transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.x);
             intake.updatePower();
-
 
             telemetry.addData("velocity", shooter.getShooterVelocity());
             telemetry.addData("theoretical velocity", 1421+svmod);
