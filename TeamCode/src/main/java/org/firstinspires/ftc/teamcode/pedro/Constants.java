@@ -14,6 +14,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Constants {
 
+    // Shooter settings
+    public static final double SHOOTER_POWER = 1500;
+    public static final double SHOOTING_TIME = 0.7;
+
+    // Blocker servo positions — verify these on your robot
+    public static final double BLOCKER_CLOSED = 0.0;
+    public static final double BLOCKER_OPEN = 1.0;
+
     /* ------------------ PEDRO FOLLOWER CONSTANTS ------------------ */
 
     public static FollowerConstants followerConstants = new FollowerConstants()
@@ -75,7 +83,7 @@ public class Constants {
             .leftRearMotorName("BL")
             .rightFrontMotorName("FR")
             .rightRearMotorName("BR")
-            // This is Nicholas's configuration. its horrible.f
+            // This is Nicholas's configuration. its horrible.
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
