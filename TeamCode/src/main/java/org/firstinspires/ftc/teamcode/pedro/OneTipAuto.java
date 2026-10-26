@@ -2,7 +2,6 @@
 package org.firstinspires.ftc.teamcode.pedro;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -74,15 +73,25 @@ public class OneTipAuto extends OpMode {
         // Path 1: Start -> first shooting location
         shotPath1 = follower.pathBuilder()
 
-                .addPath(new BezierCurve(
+                .addPath(new BezierLine(
                         startPose,
+                        firstControl
+                ))
+                .setConstantHeadingInterpolation(Math.toRadians(0))
+
+                .addPath(new BezierLine(
                         firstControl,
                         thirdPose
                 ))
                 .setConstantHeadingInterpolation(Math.toRadians(0))
 
-                .addPath(new BezierCurve(
+                .addPath(new BezierLine(
                         thirdPose,
+                        path3Control
+                ))
+                .setConstantHeadingInterpolation(Math.toRadians(0))
+
+                .addPath(new BezierLine(
                         path3Control,
                         firstShootingPose
                 ))
