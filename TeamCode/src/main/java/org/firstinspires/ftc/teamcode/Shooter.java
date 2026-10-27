@@ -13,8 +13,6 @@ public class Shooter {
     private DcMotorEx shooterMotor;
     private Servo servoBlocker;
     private double lastError=0;
-    public static double time=0;
-    public static double lastTime=0;
     public static double dTime=0;
     public static double i=0;
 
@@ -39,10 +37,10 @@ public class Shooter {
     public double calcShooterPID(){
         double error=1421-shooterMotor.getVelocity();
         double p=error*Constants.ShooterConstants.KP;
-        double d=(error-lastError)/dTime;
+        double d=(error-lastError)/dTime*Constants.ShooterConstants.KD;
         lastError=error;
-        i+=dTime*error;
-        return p+i+d;
+        //i+=dTime*error;
+        return Constants.ShooterConstants.FF;
     }
     public void updatePower(/*double distance, */int velocity){
         /*if ((2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))<=0){
