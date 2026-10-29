@@ -10,7 +10,8 @@ public class Odometry {
 
     public void initializeOdometry(HardwareMap hardwareMap){
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
-        odometry.setOffsets(-120.0, -30.0, DistanceUnit.MM);
+        odometry.setOffsets(-105, -45, DistanceUnit.MM);//-47.5, 107.5
+        //odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,GoBildaPinpointDriver.EncoderDirection.REVERSED);
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odometry.resetPosAndIMU();
     }

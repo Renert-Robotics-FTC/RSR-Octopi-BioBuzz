@@ -27,7 +27,7 @@ public class Transfer {
             transferMotor.setPower(-1);
         }
         else if (transferFlag==true) {
-            transferMotor.setPower(0.7);
+            transferMotor.setPower(0.9);
         }else {
             transferMotor.setPower(0);
         }

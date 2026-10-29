@@ -73,16 +73,21 @@ public class Teleop extends LinearOpMode{
             transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.x);
             intake.updatePower();
 
-            time=timer.seconds();
+            time=timer.milliseconds();
             shooter.dTime= time-lastTime;
             lastTime=time;
 
             double error=1421-shooter.getShooterVelocity();
+            telemetry.addData("xpos", odometry.getxPos());
+            telemetry.addData("ypos", odometry.getyPos());
+            telemetry.addData("heading", odometry.getHeading());
+            telemetry.addData("power", shooter.getPower());
             telemetry.addData("velocity", shooter.getShooterVelocity());
-            telemetry.addData("theoretical velocity", 1421+svmod);
             telemetry.addData("shooterflag", shooter.getShooterFlag());
             telemetry.addData("error", error);
             telemetry.addData("p",error*Constants.ShooterConstants.KP);
+            telemetry.addData("lastError", lastError);
+            telemetry.addData("dTime", shooter.dTime);
             telemetry.addData("d", (error-lastError)/shooter.dTime*Constants.ShooterConstants.KD);
             telemetry.update();
 
