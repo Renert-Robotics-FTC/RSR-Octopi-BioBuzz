@@ -37,10 +37,10 @@ public class Shooter {
     public double calcShooterPID(){
         double error=1450-shooterMotor.getVelocity();
         double p=error*Constants.ShooterConstants.KP;
-        double d=(error-lastError)/1.5*Constants.ShooterConstants.KD;
+        double d=(error-lastError)/dTime*Constants.ShooterConstants.KD;
         lastError=error;
         //i+=dTime*error;
-        return Constants.ShooterConstants.FF;
+        return p+d+Constants.ShooterConstants.FF;
     }
     public void updatePower(/*double distance, */int velocity){
         /*if ((2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))<=0){
