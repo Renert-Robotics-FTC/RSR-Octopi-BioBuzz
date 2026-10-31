@@ -41,6 +41,8 @@ public class Shooter {
         lastError=error;
         //i+=dTime*error;
         return p+d+Constants.ShooterConstants.FF;
+
+
     }
     public void updatePower(/*double distance, */int velocity){
         /*if ((2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))<=0){
@@ -50,11 +52,11 @@ public class Shooter {
         if(shooterFlag==true){
             //shooterMotor.setPower(Range.clip(Constants.ShooterConstants.MAX_EXIT_SPEED*distance*Math.sqrt(9.81/(2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))), 0, 1));
             //servoBlocker.setDirection(Servo.Direction.REVERSE);
-            servoBlocker.setPosition(0.35);
+            servoBlocker.setPosition(0.7);
         }
         else {
             //servoBlocker.setDirection(Servo.Direction.FORWARD);
-            servoBlocker.setPosition(0);
+            servoBlocker.setPosition(0.5);
         }
         //shooterMotor.setPower(shooterMotor.getVelocity() < velocity ? 1:0);
         shooterMotor.setPower(calcShooterPID());
