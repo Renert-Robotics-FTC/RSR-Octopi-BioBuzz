@@ -52,7 +52,7 @@ public class Shooter {
         if(shooterFlag==true){
             //shooterMotor.setPower(Range.clip(Constants.ShooterConstants.MAX_EXIT_SPEED*distance*Math.sqrt(9.81/(2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))), 0, 1));
             //servoBlocker.setDirection(Servo.Direction.REVERSE);
-            servoBlocker.setPosition(0.7);
+            servoBlocker.setPosition(0.62);
         }
         else {
             //servoBlocker.setDirection(Servo.Direction.FORWARD);

@@ -36,14 +36,14 @@ public class Teleop extends LinearOpMode{
 
         while (opModeIsActive()) {
             odometry.updateOdometry();
-            double strafe = gamepad1.left_stick_y;
-            double forward = -gamepad1.left_stick_x;
-            double turn = gamepad1.right_stick_x;
+            double strafe = Math.pow(gamepad1.left_stick_y, 3);
+            double forward = -Math.pow(gamepad1.left_stick_x, 3);
+            double turn = Math.pow(gamepad1.right_stick_x, 3);
 
             driveSubsystem.drive(forward, strafe, turn);
 
             /*if (gamepad1.right_bumper) {
-                if (shooter.getShooterFlag()==false) {
+                if (shooter.getShooterFlag()==flse) {
                     shooter.setShooterFlag(true);
                 }else{shooter.setShooterFlag(false);}
             }*/

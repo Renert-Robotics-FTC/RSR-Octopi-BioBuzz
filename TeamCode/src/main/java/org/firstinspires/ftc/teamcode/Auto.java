@@ -48,13 +48,20 @@ public class Auto extends LinearOpMode{
             intake.updatePower();
             if (time > 9000) {
                 shooter.setShooterFlag(TRUE);
+                intake.setIntakeFlag(TRUE);
             }
             if (time > 11000) {
                 driveSubsystem.drive(1, -0.7, 0);
             }
+            if (time > 14000) {
+                driveSubsystem.drive(0, -1, 0);
+            }
             if (time > 15000){
+                driveSubsystem.drive(-1, 0, 0);
+            if (time > 15250){
                 driveSubsystem.stop();
                 shooter.setShooterFlag(FALSE);
+            }
             }
 
             telemetry.addData("time", time);
