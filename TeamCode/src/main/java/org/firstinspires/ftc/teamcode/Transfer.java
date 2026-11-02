@@ -22,9 +22,12 @@ public class Transfer {
         shooterFlag=newShooterFlag;
     }
 
-    public void updatePower(boolean transferFlag){
-        if (transferFlag==true) {
-            transferMotor.setPower(0.9);
+    public void updatePower(boolean transferFlag, boolean isReversed){
+        if(isReversed==true){
+            transferMotor.setPower(-1);
+        }
+        else if (transferFlag==true) {
+            transferMotor.setPower(0.8);
         }else {
             transferMotor.setPower(0);
         }

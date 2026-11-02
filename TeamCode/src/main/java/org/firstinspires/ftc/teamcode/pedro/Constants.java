@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Constants {
 
     // Shooter settings
-    public static final double SHOOTER_POWER = 1500;
+    public static final double SHOOTER_POWER = 1460;
     public static final double SHOOTING_TIME = 0.7;
 
     // Blocker servo positions — verify these on your robot
@@ -85,8 +85,8 @@ public class Constants {
             .rightRearMotorName("BR")
             // This is Nicholas's configuration. its horrible.
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .xVelocity(52.71)
             .yVelocity(78.38);
@@ -94,10 +94,10 @@ public class Constants {
     /* ------------------ LOCALIZER CONSTANTS ------------------ */
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(-1.0)
-            .strafePodX(-1.0)
+            .forwardPodY(-47.5)
+            .strafePodX(-107.5)
             // Inverted forward encoder direction so forward motion increases Y positively
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
     /* ------------------ PATH CONSTRAINTS ------------------ */

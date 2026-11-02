@@ -63,4 +63,10 @@ public class DriveSubsystem {
         BL.setPower(blPower);
         BR.setPower(brPower);
     }
+    public void stop() {
+        FL.setPower(0);
+        FR.setPower(0);
+        BL.setPower(0);
+        BR.setPower(0);
+    }
 }
