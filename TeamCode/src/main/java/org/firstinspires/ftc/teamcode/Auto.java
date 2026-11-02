@@ -37,6 +37,8 @@ public class Auto extends LinearOpMode{
 
         waitForStart();
 
+        timer.reset();
+
         while (opModeIsActive()) {
             time=timer.milliseconds();
             shooter.dTime= time-lastTime;

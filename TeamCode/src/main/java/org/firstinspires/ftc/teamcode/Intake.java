@@ -53,9 +53,9 @@ public class Intake {
             return;
         }
         if(stoppaoppaFlag==true){
-            flintake.setPosition(0);
+            flintake.setPosition(0.42);
             return;
         }
-        flintake.setPosition(0.42);
+        flintake.setPosition(0);
     }
 }
