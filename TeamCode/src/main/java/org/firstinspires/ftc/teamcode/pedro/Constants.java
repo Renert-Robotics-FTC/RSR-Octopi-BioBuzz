@@ -97,7 +97,7 @@ public class Constants {
             .forwardPodY(-47.5)
             .strafePodX(-107.5)
             // Inverted forward encoder direction so forward motion increases Y positively
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
     /* ------------------ PATH CONSTRAINTS ------------------ */

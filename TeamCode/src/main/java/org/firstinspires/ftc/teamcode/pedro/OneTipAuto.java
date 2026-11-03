@@ -28,17 +28,17 @@ public class OneTipAuto extends OpMode {
     private Timer pathTimer;
     private int pathState = 0;
 
-    private final Pose startPose = new Pose(56, 8, Math.toRadians(90));
-    private final Pose point1 = new Pose(31, 9, Math.toRadians(180));
-    private final Pose point2 = new Pose(7, 7, Math.toRadians(180));
-    private final Pose point3 = new Pose(28, 80, Math.toRadians(270));
-    private final Pose point4 = new Pose(60, 134, Math.toRadians(270));
-    private final Pose point5 = new Pose(47.5, 110, Math.toRadians(90));
-    private final Pose point6 = new Pose(47.5, 130, Math.toRadians(90));
-    private final Pose point7 = new Pose(47, 110, Math.toRadians(270));
-    private final Pose point8 = new Pose(60, 134, Math.toRadians(270));
-    private final Pose point9 = new Pose(12, 60, Math.toRadians(0));
-    private final Pose point10 = new Pose(12, 95, Math.toRadians(0));
+    private final Pose startPose = new Pose(56, 8, Math.toRadians(270));
+    private final Pose point1 = new Pose(-31, 9, Math.toRadians(0));
+    private final Pose point2 = new Pose(-7, 7, Math.toRadians(0));
+    private final Pose point3 = new Pose(-28, 80, Math.toRadians(90));
+    private final Pose point4 = new Pose(-60, 134, Math.toRadians(90));
+    private final Pose point5 = new Pose(-47.5, 110, Math.toRadians(270));
+    private final Pose point6 = new Pose(-47.5, 130, Math.toRadians(270));
+    private final Pose point7 = new Pose(-47, 110, Math.toRadians(90));
+    private final Pose point8 = new Pose(-60, 134, Math.toRadians(90));
+    private final Pose point9 = new Pose(-12, 60, Math.toRadians(180));
+    private final Pose point10 = new Pose(-12, 95, Math.toRadians(180));
 
     private PathChain path1;
     private PathChain path2;
