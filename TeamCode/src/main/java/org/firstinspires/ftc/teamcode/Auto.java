@@ -23,7 +23,6 @@ public class Auto extends LinearOpMode{
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
 
-        int svmod=0;
         double time = 0;
         double lastTime=0;
 
@@ -45,7 +44,7 @@ public class Auto extends LinearOpMode{
             lastTime=time;
 
             double error=1421-shooter.getShooterVelocity();
-            shooter.updatePower(1421+svmod);
+            shooter.updatePower();
             transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.x);
             intake.updatePower();
             if (time > 9000) {

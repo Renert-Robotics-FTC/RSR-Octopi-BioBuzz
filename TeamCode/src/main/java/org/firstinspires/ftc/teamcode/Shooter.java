@@ -44,7 +44,7 @@ public class Shooter {
 
 
     }
-    public void updatePower(/*double distance, */int velocity){
+    public void updatePower(/*double distance, int velocity*/){
         /*if ((2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))<=0){
             shooterMotor.setPower(0);
             return;
