@@ -20,7 +20,6 @@ public class Teleop extends LinearOpMode{
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
 
-        int svmod=0;
         double time;
         double lastTime=0;
 
@@ -39,6 +38,15 @@ public class Teleop extends LinearOpMode{
             double strafe = Math.pow(gamepad1.left_stick_y, 3);
             double forward = -Math.pow(gamepad1.left_stick_x, 3);
             double turn = Math.pow(gamepad1.right_stick_x, 3);
+            double heading;
+
+            if (gamepad1.b){
+                heading= (odometry.getHeading()>90)? odometry.getHeading()-360 : odometry.getHeading();
+                turn = (-90-heading)/180*Constants.DriveConstants.HDP;
+            }else if (gamepad1.x){
+                heading= (odometry.getHeading()<-90)? odometry.getHeading()+360 : odometry.getHeading();
+                turn = (90-odometry.getHeading())/180*Constants.DriveConstants.HDP;
+            }
 
             driveSubsystem.drive(forward, strafe, turn);
 
@@ -58,19 +66,13 @@ public class Teleop extends LinearOpMode{
 
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
             intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
-            intake.setReverse(gamepad1.x);
-            intake.setUnjam(gamepad1.b);
-            if (gamepad1.a){
-                svmod--;
-            }
-            if (gamepad1.y){
-                svmod++;
-            }
+            intake.setReverse(gamepad1.y);
+            intake.setUnjam(gamepad1.a);
             intake.setFlintakePos(gamepad1.right_bumper, gamepad1.left_bumper);
 
 
-            shooter.updatePower(1421+svmod);
-            transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.x);
+            shooter.updatePower();
+            transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.y);
             intake.updatePower();
 
             time=timer.milliseconds();

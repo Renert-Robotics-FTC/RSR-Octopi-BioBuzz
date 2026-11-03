@@ -9,36 +9,39 @@ import com.pedropathing.util.Timer;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Intake;
+import org.firstinspires.ftc.teamcode.Shooter;
+import org.firstinspires.ftc.teamcode.Transfer;
 
 @Autonomous(name = "One tip auto", group = "Pedropathing")
 public class OneTipAuto extends OpMode {
 
-    private DcMotorEx shooter;
-    private DcMotorEx intake;
-    private DcMotorEx transfer;
-    private Servo blocker;
-    private Intake intakeSubsystem;
+    private Shooter shooter;
+    private Intake intake;
+    private Transfer transfer;
 
     private Follower follower;
     private Timer pathTimer;
+    private double lastTime = 0;
     private int pathState = 0;
+    private ElapsedTime shooterTimer;
 
-    private final Pose startPose = new Pose(56, 8, Math.toRadians(270));
-    private final Pose point1 = new Pose(-31, 9, Math.toRadians(0));
-    private final Pose point2 = new Pose(-7, 7, Math.toRadians(0));
-    private final Pose point3 = new Pose(-28, 80, Math.toRadians(90));
-    private final Pose point4 = new Pose(-60, 134, Math.toRadians(90));
-    private final Pose point5 = new Pose(-47.5, 110, Math.toRadians(270));
-    private final Pose point6 = new Pose(-47.5, 130, Math.toRadians(270));
-    private final Pose point7 = new Pose(-47, 110, Math.toRadians(90));
-    private final Pose point8 = new Pose(-60, 134, Math.toRadians(90));
-    private final Pose point9 = new Pose(-12, 60, Math.toRadians(180));
-    private final Pose point10 = new Pose(-12, 95, Math.toRadians(180));
+    private final Pose startPose = new Pose(56, 8, Math.toRadians(90));
+    private final Pose point1 = new Pose(-31, 9, Math.toRadians(180));
+    private final Pose point2 = new Pose(-7, 7, Math.toRadians(180));
+    private final Pose point3 = new Pose(-28, 80, Math.toRadians(270));
+    private final Pose point4 = new Pose(-60, 134, Math.toRadians(270));
+    private final Pose point5 = new Pose(-47.5, 110, Math.toRadians(90));
+
+    //changed up to here radians
+
+    private final Pose point6 = new Pose(-47.5, 130, Math.toRadians(90));
+    private final Pose point7 = new Pose(-47, 110, Math.toRadians(270));
+    private final Pose point8 = new Pose(-60, 134, Math.toRadians(270));
+    private final Pose point9 = new Pose(-12, 60, Math.toRadians(0));
+    private final Pose point10 = new Pose(-12, 95, Math.toRadians(0));
 
     private PathChain path1;
     private PathChain path2;
@@ -117,33 +120,19 @@ public class OneTipAuto extends OpMode {
     public void init() {
         follower = Constants.createFollower(hardwareMap);
 
-        shooter = hardwareMap.get(
-                DcMotorEx.class, Constants.Mechanism.SHOOTER);
-        intake = hardwareMap.get(
-                DcMotorEx.class, Constants.Mechanism.INTAKE);
-        transfer = hardwareMap.get(
-                DcMotorEx.class, Constants.Mechanism.TRANSFER);
-        blocker = hardwareMap.get(Servo.class, "blocker");
+        shooter = new Shooter(hardwareMap);
+        intake = new Intake(hardwareMap);
+        transfer = new Transfer(hardwareMap);
 
-        intakeSubsystem = new Intake(hardwareMap);
+// Start with all mechanisms off.
+        shooter.setShooterFlag(false);
+        intake.setIntakeFlag(false);
 
-        shooter.setDirection(Constants.Mechanism.SHOOTER_DIR);
-        intake.setDirection(Constants.Mechanism.INTAKE_DIR);
-        transfer.setDirection(Constants.Mechanism.TRANSFER_DIR);
-
-        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        transfer.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        shooter.setPower(0);
-        intake.setPower(0);
-        transfer.setPower(0);
-
-        blocker.setPosition(Constants.BLOCKER_CLOSED);
-
-        intakeSubsystem.setFlintakePos(false, false);
+        intake.setFlintakePos(false, false);
 
         pathTimer = new Timer();
+        shooterTimer = new ElapsedTime();
+
         follower.setStartingPose(startPose);
         buildPaths();
 
@@ -152,24 +141,50 @@ public class OneTipAuto extends OpMode {
 
     @Override
     public void start() {
-        shooter.setVelocity(Constants.SHOOTER_POWER);
+        shooterTimer.reset();
+        lastTime = 0;
+
+        shooter.setShooterFlag(false);
+        intake.setIntakeFlag(false);
+
         setPathState(0);
     }
 
     @Override
     public void loop() {
+
+        // Calculate time between shooter PID updates.
+        double currentTime = shooterTimer.milliseconds();
+        Shooter.dTime = currentTime - lastTime;
+        lastTime = currentTime;
+
+        // Update all three mechanisms.
+        shooter.updatePower();
+
+        intake.updatePower();
+
+        transfer.updatePower(
+                shooter.getShooterFlag() || intake.getIntakeFlag(),
+                false
+        );
+
+        // Update PedroPathing and autonomous state machine.
         follower.update();
         autonomousPathUpdate();
 
         telemetry.addData("Path State", pathState);
-        telemetry.addData("Shooter Velocity", shooter.getVelocity());
-        telemetry.addData("Intake Power", intake.getPower());
-        telemetry.addData("Transfer Power", transfer.getPower());
+        telemetry.addData("Shooter Velocity", shooter.getShooterVelocity());
+        telemetry.addData("Shooter Target", 1421);
+        telemetry.addData("Shooter Power", shooter.getPower());
+        telemetry.addData("Shooter Flag", shooter.getShooterFlag());
+        telemetry.addData("Intake Flag", intake.getIntakeFlag());
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
         telemetry.addData(
                 "Heading (degrees)",
-                Math.toDegrees(follower.getPose().getHeading()));
+                Math.toDegrees(follower.getPose().getHeading())
+        );
+
         telemetry.update();
     }
 
@@ -179,9 +194,8 @@ public class OneTipAuto extends OpMode {
         switch (pathState) {
             case 0:
                 if (pathTimer.getElapsedTimeSeconds() >= 3.0) {
-                    blocker.setPosition(Constants.BLOCKER_OPEN);
-                    intake.setPower(1.0);
-                    transfer.setPower(1.0);
+                    shooter.setShooterFlag(true);
+                    intake.setIntakeFlag(true);
                     setPathState(1);
                 }
                 break;
@@ -189,9 +203,8 @@ public class OneTipAuto extends OpMode {
             case 1:
                 if (pathTimer.getElapsedTimeSeconds()
                         >= Constants.SHOOTING_TIME) {
-                    blocker.setPosition(Constants.BLOCKER_CLOSED);
-                    intake.setPower(0);
-                    transfer.setPower(0);
+
+                    shooter.setShooterFlag(false);
 
                     follower.followPath(path1, true);
                     setPathState(2);
@@ -228,9 +241,8 @@ public class OneTipAuto extends OpMode {
 
             case 6:
                 if (!follower.isBusy()) {
-                    intakeSubsystem.setFlintakePos(true, false);
-                    intake.setPower(1.0);
-                    transfer.setPower(1.0);
+                    intake.setIntakeFlag(true);
+                    intake.setFlintakePos(true, false);
 
                     follower.followPath(path6, true);
                     setPathState(7);
@@ -246,9 +258,8 @@ public class OneTipAuto extends OpMode {
 
             case 8:
                 if (!follower.isBusy()) {
-                    intakeSubsystem.setFlintakePos(false, false);
-                    intake.setPower(0);
-                    transfer.setPower(0);
+                    intake.setIntakeFlag(false);
+                    intake.setFlintakePos(false, false);
 
                     follower.followPath(path8, true);
                     setPathState(9);
@@ -257,9 +268,7 @@ public class OneTipAuto extends OpMode {
 
             case 9:
                 if (!follower.isBusy()) {
-                    blocker.setPosition(Constants.BLOCKER_OPEN);
-                    intake.setPower(1.0);
-                    transfer.setPower(1.0);
+                    shooter.setShooterFlag(true);
                     setPathState(10);
                 }
                 break;
@@ -267,9 +276,8 @@ public class OneTipAuto extends OpMode {
             case 10:
                 if (pathTimer.getElapsedTimeSeconds()
                         >= Constants.SHOOTING_TIME) {
-                    blocker.setPosition(Constants.BLOCKER_CLOSED);
-                    intake.setPower(0);
-                    transfer.setPower(0);
+
+                    shooter.setShooterFlag(false);
 
                     follower.followPath(path9, true);
                     setPathState(11);
@@ -285,9 +293,7 @@ public class OneTipAuto extends OpMode {
 
             case 12:
                 if (!follower.isBusy()) {
-                    blocker.setPosition(Constants.BLOCKER_OPEN);
-                    intake.setPower(1.0);
-                    transfer.setPower(1.0);
+                    shooter.setShooterFlag(true);
                     setPathState(13);
                 }
                 break;
@@ -295,10 +301,9 @@ public class OneTipAuto extends OpMode {
             case 13:
                 if (pathTimer.getElapsedTimeSeconds()
                         >= Constants.SHOOTING_TIME) {
-                    blocker.setPosition(Constants.BLOCKER_CLOSED);
-                    intake.setPower(0);
-                    transfer.setPower(0);
-                    shooter.setVelocity(0);
+
+                    shooter.setShooterFlag(false);
+                    intake.setIntakeFlag(false);
                     setPathState(14);
                 }
                 break;
@@ -306,14 +311,5 @@ public class OneTipAuto extends OpMode {
             case 14:
                 break;
         }
-    }
-
-
-
-    @Override
-    public void stop() {
-        if (shooter != null) shooter.setPower(0);
-        if (intake != null) intake.setPower(0);
-        if (transfer != null) transfer.setPower(0);
     }
 }
