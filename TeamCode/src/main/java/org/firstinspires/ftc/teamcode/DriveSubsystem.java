@@ -10,6 +10,7 @@ public class DriveSubsystem {
     private DcMotor FL;
     private DcMotor FR;
     private Odometry odometry;
+    private double lastError=0;
 
     public DriveSubsystem(HardwareMap hardwareMap, Odometry odometry) {
 
@@ -69,14 +70,19 @@ public class DriveSubsystem {
         BL.setPower(0);
         BR.setPower(0);
     }
-    public double alignR(HardwareMap hardwareMap, Odometry odometry){
-        this.odometry=odometry;
-        double heading= (odometry.getHeading()>90)? odometry.getHeading()-360 : odometry.getHeading();
-        return (-90-heading)/180*Constants.DriveConstants.HDP;
+    public double alignR(HardwareMap hardwareMap, double head){
+        double heading= (head>90)? head-360 : head;
+        double error=(-90-heading)/180;
+        double p=error*Constants.DriveConstants.HDP;
+        double d=(error-lastError)/Shooter.dTime * Constants.DriveConstants.HDD;
+        lastError=error;
+        return p+d;
     }
-    public double alignL(HardwareMap hardwareMap, Odometry odometry){
-        this.odometry=odometry;
-        double heading= (odometry.getHeading()<-90)? odometry.getHeading()+360 : odometry.getHeading();
-        return (90-heading)/180*Constants.DriveConstants.HDP;
+    public double alignL(HardwareMap hardwareMap, double head){
+        double heading= (head<-90)? head+360 : head;
+        double error=(90-heading)/180;
+        double p=error*Constants.DriveConstants.HDP;
+        double d=(error-lastError)/Shooter.dTime * Constants.DriveConstants.HDD;
+        return p+d;
     }
 }

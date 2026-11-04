@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode;
 public class Constants {
 
     public static final class DriveConstants{
-        public static final double HDP=0.35;
+        public static final double HDP=1;
+        public static final double HDD=1;
     }
 
     public static final class ShooterConstants{
