@@ -69,4 +69,14 @@ public class DriveSubsystem {
         BL.setPower(0);
         BR.setPower(0);
     }
+    public double alignR(HardwareMap hardwareMap, Odometry odometry){
+        this.odometry=odometry;
+        double heading= (odometry.getHeading()>90)? odometry.getHeading()-360 : odometry.getHeading();
+        return (-90-heading)/180*Constants.DriveConstants.HDP;
+    }
+    public double alignL(HardwareMap hardwareMap, Odometry odometry){
+        this.odometry=odometry;
+        double heading= (odometry.getHeading()<-90)? odometry.getHeading()+360 : odometry.getHeading();
+        return (90-heading)/180*Constants.DriveConstants.HDP;
+    }
 }

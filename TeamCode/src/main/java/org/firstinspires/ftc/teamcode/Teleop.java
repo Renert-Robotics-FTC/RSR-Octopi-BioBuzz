@@ -41,11 +41,9 @@ public class Teleop extends LinearOpMode{
             double heading;
 
             if (gamepad1.b){
-                heading= (odometry.getHeading()>90)? odometry.getHeading()-360 : odometry.getHeading();
-                turn = (-90-heading)/180*Constants.DriveConstants.HDP;
+                driveSubsystem.alignR(hardwareMap, odometry);
             }else if (gamepad1.x){
-                heading= (odometry.getHeading()<-90)? odometry.getHeading()+360 : odometry.getHeading();
-                turn = (90-odometry.getHeading())/180*Constants.DriveConstants.HDP;
+                driveSubsystem.alignL(hardwareMap, odometry);
             }
 
             driveSubsystem.drive(forward, strafe, turn);
