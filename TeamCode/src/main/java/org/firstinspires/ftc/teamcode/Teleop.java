@@ -82,7 +82,8 @@ public class Teleop extends LinearOpMode{
             telemetry.addData("ypos", odometry.getyPos());
             telemetry.addData("heading", odometry.getHeading());
             telemetry.addData("power", shooter.getPower());
-            telemetry.addData("velocity", shooter.getShooterVelocity());
+            telemetry.addData("shooter velocity", shooter.getShooterVelocity());
+            telemetry.addData("velocity", Shooter.velocity);
             telemetry.addData("shooterflag", shooter.getShooterFlag());
             telemetry.addData("error", error);
             telemetry.addData("p",error*Constants.ShooterConstants.KP);

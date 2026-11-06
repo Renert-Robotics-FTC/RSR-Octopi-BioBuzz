@@ -13,13 +13,17 @@ public class Shooter {
     private DcMotorEx shooterMotor;
     private Servo servoBlocker;
     private double lastError=0;
+    private double lastPosition=0;
     public static double dTime=0;
     public static double i=0;
+    public static double velocity=0;
 
     public Shooter(HardwareMap hardwareMap){
         shooterMotor=hardwareMap.get(DcMotorEx.class, "shooter");
         servoBlocker=hardwareMap.get(Servo.class, "blocker");
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        shooterMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public boolean getShooterFlag(){
@@ -35,7 +39,9 @@ public class Shooter {
     }
 
     public double calcShooterPID(){
-        double error=1450-shooterMotor.getVelocity();
+        double position=shooterMotor.getCurrentPosition();
+        velocity=(position-lastPosition)/dTime*1000;
+        double error=1470-shooterMotor.getVelocity();
         double p=error*Constants.ShooterConstants.KP;
         double d=(error-lastError)/dTime*Constants.ShooterConstants.KD;
         lastError=error;
