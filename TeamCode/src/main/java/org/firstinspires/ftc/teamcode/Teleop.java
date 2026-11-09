@@ -19,7 +19,6 @@ public class Teleop extends LinearOpMode{
         Shooter shooter=new Shooter(hardwareMap, odometry);
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
-        Timer timer=new Timer(new ElapsedTime());
 
         double lastError=0;
 
@@ -29,6 +28,8 @@ public class Teleop extends LinearOpMode{
 
         waitForStart();
 
+        Timer.resetTimer();
+
         while (opModeIsActive()) {
             odometry.updateOdometry();
             double strafe = Math.pow(gamepad1.left_stick_y, 3);
@@ -36,10 +37,10 @@ public class Teleop extends LinearOpMode{
             double turn = Math.pow(gamepad1.right_stick_x, 3);
             double heading;
 
-            if (gamepad1.b){
-                turn=driveSubsystem.alignR(hardwareMap, odometry.getHeading());
-            }else if (gamepad1.x){
-                turn=driveSubsystem.alignL(hardwareMap, odometry.getHeading());
+            if (gamepad1.b) {
+                turn = driveSubsystem.alignR(hardwareMap, odometry.getHeading());
+            } else if (gamepad1.x) {
+                turn = driveSubsystem.alignL(hardwareMap, odometry.getHeading());
             }
 
             driveSubsystem.drive(forward, strafe, turn);
@@ -58,6 +59,9 @@ public class Teleop extends LinearOpMode{
                 }
             }*/
 
+            Timer.updateTimes();
+            shooter.flipHivex(gamepad2.b);
+            shooter.updateTurret();
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
             intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
             intake.setReverse(gamepad1.y);
@@ -65,7 +69,7 @@ public class Teleop extends LinearOpMode{
             intake.setFlintakePos(gamepad1.right_bumper, gamepad1.left_bumper);
 
 
-            shooter.updatePower(timer.getdTime());
+            shooter.updatePower(Timer.getdTime());
             transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.y);
             intake.updatePower();
 
@@ -82,8 +86,8 @@ public class Teleop extends LinearOpMode{
             telemetry.addData("error", error);
             telemetry.addData("p",error*Constants.ShooterConstants.KP);
             telemetry.addData("lastError", lastError);
-            telemetry.addData("dTime", timer.getdTime());
-            telemetry.addData("d", (error-lastError)/timer.getdTime()*Constants.ShooterConstants.KD);
+            telemetry.addData("dTime", Timer.getdTime());
+            telemetry.addData("d", (error-lastError)/Timer.getdTime()*Constants.ShooterConstants.KD);
             telemetry.update();
 
             lastError=error;

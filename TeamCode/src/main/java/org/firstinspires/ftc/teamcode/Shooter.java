@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.net.ssl.StandardConstants;
+
 public class Shooter {
 
     private static boolean shooterFlag=false;
@@ -21,7 +25,7 @@ public class Shooter {
     public static double i=0;
     public static double velocity=0;
     private Odometry odometry;
-    private static boolean tlr=true;
+    private static double hivex= Constants.TurretConstants.hiveLx;
 
 
     public Shooter(HardwareMap hardwareMap, Odometry odometry){
@@ -83,16 +87,23 @@ public class Shooter {
         return shooterMotor.getPower();
     }
 
-    public void flipTLR() {
-        if (tlr == true){
-            tlr = false;
-        }
-        if (tlr==false){
-            tlr=true;
+    public void flipHivex(boolean flip) {
+        if (flip==true) {
+            if (Timer.getDelay() > 0.5) {
+                if (hivex == Constants.TurretConstants.hiveLx) {
+                    hivex = Constants.TurretConstants.hiveRx;
+                    Timer.updateTriggerTime();
+                } else if (hivex == Constants.TurretConstants.hiveRx) {
+                    hivex = Constants.TurretConstants.hiveLx;
+                    Timer.updateTriggerTime();
+                }
+            }
         }
     }
 
     public void updateTurret(){
-        double dx=odometry.getxPos();
+        double dx=hivex-odometry.getxPos();
+        double dy=Constants.TurretConstants.hivey-odometry.getyPos();
+
     }
 }
