@@ -15,4 +15,11 @@ public class Constants {
         public static final double KD=0.9;
         public static final double FF=0.7;
     }
+
+    public static final class TurretConstants{
+        public static final double hiveRx=50;
+        public static final double hiveLx=150;
+        public static final double hivey=40;
+        public static final double speedmult=0.5;
+    }
 }

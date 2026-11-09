@@ -16,17 +16,13 @@ public class Teleop extends LinearOpMode{
 
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, odometry);
 
-        Shooter shooter=new Shooter(hardwareMap);
+        Shooter shooter=new Shooter(hardwareMap, odometry);
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
-
-        double time;
-        double lastTime=0;
+        Timer timer=new Timer(new ElapsedTime());
 
         double lastError=0;
 
-        ElapsedTime timer = new ElapsedTime();
-        timer.reset();
 
         telemetry.addLine("Ready!");
         telemetry.update();
@@ -69,13 +65,11 @@ public class Teleop extends LinearOpMode{
             intake.setFlintakePos(gamepad1.right_bumper, gamepad1.left_bumper);
 
 
-            shooter.updatePower();
+            shooter.updatePower(timer.getdTime());
             transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.y);
             intake.updatePower();
 
-            time=timer.milliseconds();
-            shooter.dTime= time-lastTime;
-            lastTime=time;
+
 
             double error=1421-shooter.getShooterVelocity();
             telemetry.addData("xpos", odometry.getxPos());
@@ -88,8 +82,8 @@ public class Teleop extends LinearOpMode{
             telemetry.addData("error", error);
             telemetry.addData("p",error*Constants.ShooterConstants.KP);
             telemetry.addData("lastError", lastError);
-            telemetry.addData("dTime", shooter.dTime);
-            telemetry.addData("d", (error-lastError)/shooter.dTime*Constants.ShooterConstants.KD);
+            telemetry.addData("dTime", timer.getdTime());
+            telemetry.addData("d", (error-lastError)/timer.getdTime()*Constants.ShooterConstants.KD);
             telemetry.update();
 
             lastError=error;

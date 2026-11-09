@@ -19,13 +19,13 @@ public class Auto extends LinearOpMode{
 
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, odometry);
 
-        Shooter shooter=new Shooter(hardwareMap);
+        Shooter shooter=new Shooter(hardwareMap, odometry);
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
 
         double time = 0;
         double lastTime=0;
-
+        double dTime=0;
         double lastError=0;
 
         ElapsedTime timer = new ElapsedTime();
@@ -40,11 +40,11 @@ public class Auto extends LinearOpMode{
 
         while (opModeIsActive()) {
             time=timer.milliseconds();
-            shooter.dTime= time-lastTime;
+            dTime= time-lastTime;
             lastTime=time;
 
             double error=1421-shooter.getShooterVelocity();
-            shooter.updatePower();
+            shooter.updatePower(dTime);
             transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.x);
             intake.updatePower();
             if (time > 9000) {
@@ -74,8 +74,8 @@ public class Auto extends LinearOpMode{
             telemetry.addData("error", error);
             telemetry.addData("p",error*Constants.ShooterConstants.KP);
             telemetry.addData("lastError", lastError);
-            telemetry.addData("dTime", shooter.dTime);
-            telemetry.addData("d", (error-lastError)/shooter.dTime*Constants.ShooterConstants.KD);
+            telemetry.addData("dTime", dTime);
+            telemetry.addData("d", (error-lastError)/dTime*Constants.ShooterConstants.KD);
             telemetry.update();
 
             lastError=error;
