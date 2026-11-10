@@ -26,6 +26,7 @@ public class Shooter {
     public static double velocity=0;
     private Odometry odometry;
     private static double hivex= Constants.TurretConstants.hiveLx;
+    private double targetv=1470;
 
 
     public Shooter(HardwareMap hardwareMap, Odometry odometry){
@@ -56,7 +57,7 @@ public class Shooter {
     public double calcShooterPID(double dTime){
         double position=shooterMotor.getCurrentPosition();
         velocity=(position-lastPosition)/dTime*1000;
-        double error=1470-shooterMotor.getVelocity();
+        double error=targetv-shooterMotor.getVelocity();
         double p=error*Constants.ShooterConstants.KP;
         double d=(error-lastError)/dTime*Constants.ShooterConstants.KD;
         lastError=error;
@@ -104,6 +105,8 @@ public class Shooter {
     public void updateTurret(){
         double dx=hivex-odometry.getxPos();
         double dy=Constants.TurretConstants.hivey-odometry.getyPos();
-
+        double tpos=Math.toDegrees(Math.atan2(dy, dx)-odometry.getHeading());
+        turret1.setPosition(tpos);
+        turret2.setPosition(tpos);
     }
 }

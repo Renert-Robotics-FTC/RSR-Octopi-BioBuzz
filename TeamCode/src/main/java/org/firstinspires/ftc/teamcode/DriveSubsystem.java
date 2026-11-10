@@ -74,7 +74,7 @@ public class DriveSubsystem {
         double heading= (head>90)? head-360 : head;
         double error=(-90-heading)/180;
         double p=error*Constants.DriveConstants.HDP;
-        double d=(error-lastError)/Shooter.dTime * Constants.DriveConstants.HDD;
+        double d=(error-lastError)/Timer.getdTime() * Constants.DriveConstants.HDD;
         lastError=error;
         return p+d;
     }
@@ -82,7 +82,7 @@ public class DriveSubsystem {
         double heading= (head<-90)? head+360 : head;
         double error=(90-heading)/180;
         double p=error*Constants.DriveConstants.HDP;
-        double d=(error-lastError)/Shooter.dTime * Constants.DriveConstants.HDD;
+        double d=(error-lastError)/Timer.getdTime() * Constants.DriveConstants.HDD;
         return p+d;
     }
 }
