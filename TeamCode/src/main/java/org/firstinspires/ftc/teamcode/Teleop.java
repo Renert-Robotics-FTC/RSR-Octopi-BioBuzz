@@ -20,6 +20,8 @@ public class Teleop extends LinearOpMode{
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
 
+        Turret turret=new Turret(hardwareMap, odometry);
+
         double lastError=0;
 
 
@@ -60,8 +62,8 @@ public class Teleop extends LinearOpMode{
             }*/
 
             Timer.updateTimes();
-            shooter.flipHivex(gamepad2.x);
-            shooter.updateTurret();
+            turret.flipHivex(gamepad2.x);
+            turret.updateTurret();
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
             intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
             intake.setReverse(gamepad1.y);

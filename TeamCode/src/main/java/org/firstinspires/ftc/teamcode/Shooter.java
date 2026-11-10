@@ -18,14 +18,11 @@ public class Shooter {
     private DcMotorEx shooterMotor;
     private DcMotorEx shooterMotor2;
     private Servo servoBlocker;
-    private Servo turret1;
-    private Servo turret2;
     private double lastError=0;
     private double lastPosition=0;
     public static double i=0;
     public static double velocity=0;
     private Odometry odometry;
-    private static double hivex= Constants.TurretConstants.hiveLx;
     private double targetv=1470;
 
 
@@ -35,8 +32,6 @@ public class Shooter {
         shooterMotor2=hardwareMap.get(DcMotorEx.class, "xtra^");
         shooterMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
         servoBlocker=hardwareMap.get(Servo.class, "blocker");
-        turret1=hardwareMap.get(Servo.class, "turret1");
-        turret2=hardwareMap.get(Servo.class, "turret2");
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shooterMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -88,25 +83,4 @@ public class Shooter {
         return shooterMotor.getPower();
     }
 
-    public void flipHivex(boolean flip) {
-        if (flip==true) {
-            if (Timer.getDelay() > 0.5) {
-                if (hivex == Constants.TurretConstants.hiveLx) {
-                    hivex = Constants.TurretConstants.hiveRx;
-                    Timer.updateTriggerTime();
-                } else if (hivex == Constants.TurretConstants.hiveRx) {
-                    hivex = Constants.TurretConstants.hiveLx;
-                    Timer.updateTriggerTime();
-                }
-            }
-        }
-    }
-
-    public void updateTurret(){
-        double dx=hivex-odometry.getxPos();
-        double dy=Constants.TurretConstants.hivey-odometry.getyPos();
-        double tpos=Math.toDegrees(Math.atan2(dy, dx)-odometry.getHeading());
-        turret1.setPosition(tpos);
-        turret2.setPosition(tpos);
-    }
 }
