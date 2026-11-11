@@ -62,7 +62,6 @@ public class Teleop extends LinearOpMode{
             }*/
 
             Timer.updateTimes();
-            turret.flipHivex(gamepad2.x);
             turret.updateTurret();
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
             intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
