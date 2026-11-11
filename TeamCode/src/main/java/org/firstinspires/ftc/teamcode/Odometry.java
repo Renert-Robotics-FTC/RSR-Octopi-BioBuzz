@@ -22,15 +22,19 @@ public class Odometry {
 
     //methods for other classes to access odometry data
     public double getxPos(){
-        double xpos = odometry.getPosX(DistanceUnit.MM);
+        double xpos = odometry.getPosY(DistanceUnit.MM);
         return xpos;
     }
     public double getyPos(){
-        double ypos = odometry.getPosY(DistanceUnit.MM);
+        double ypos = odometry.getPosX(DistanceUnit.MM);
         return ypos;
     }
     public double getHeading(){
         double heading = odometry.getHeading(AngleUnit.DEGREES);
         return heading;
+    }
+
+    public void zeroOdo(){//bottom left corner with robot facing forward
+        odometry.resetPosAndIMU();
     }
 }

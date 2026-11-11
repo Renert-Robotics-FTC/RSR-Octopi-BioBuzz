@@ -16,11 +16,10 @@ public class Teleop extends LinearOpMode{
 
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, odometry);
 
-        Shooter shooter=new Shooter(hardwareMap, odometry);
+        Turret turret=new Turret(hardwareMap, odometry);
+        Shooter shooter=new Shooter(hardwareMap, odometry, turret);
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
-
-        Turret turret=new Turret(hardwareMap, odometry);
 
         double lastError=0;
 

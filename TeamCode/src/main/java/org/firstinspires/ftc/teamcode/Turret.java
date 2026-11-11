@@ -17,25 +17,31 @@ public class Turret {
         turret2 = hardwareMap.get(Servo.class, "turret2");
     }
 
-    public double getTarget(double targetx, double targety){
+    public double calcTargetX(){
         if (odometry.getxPos()>Constants.TurretConstants.HIVELXPOS){
-            hivex=Constants.TurretConstants.HIVELX;
+            return Constants.TurretConstants.HIVELX;
         }
         else if (odometry.getxPos()<Constants.TurretConstants.HIVERXPOS){
-            hivex= Constants.TurretConstants.HIVERX;
+            return Constants.TurretConstants.HIVERX;
         }
+        return (Constants.TurretConstants.HIVELX+Constants.TurretConstants.HIVERX)/2;
+    }
+    public double calcTargetY(){
+        return Constants.TurretConstants.HIVEY;
+    }
+    public double calcTargetHeading(double hivex, double hivey){
         double dx=hivex-odometry.getxPos();
-        double dy=Constants.TurretConstants.HIVEY-odometry.getyPos();
-        double tpos= Math.toDegrees(Math.atan2(dy, dx)-odometry.getHeading());
+        double dy=hivey-odometry.getyPos();
+        double tpos= Math.toDegrees(Math.atan2(dy, dx)-odometry.getHeading())+Constants.TurretConstants.TARGHEADOFFSET;
         return tpos;
     }
 
     public double turDir2servPos(double turDir){
-        return (Range.clip(turDir, -Constants.TurretConstants.HALFROTLIM, Constants.TurretConstants.HALFROTLIM)+Constants.TurretConstants.HALFROTLIM)/Constants.TurretConstants.FULLROTLIM % Constants.TurretConstants.MODULARARITHEMETIC;
+        return (turDir+Constants.TurretConstants.HALFROTLIM)/Constants.TurretConstants.FULLROTLIM % 1;
     }
 
     public void updateTurret(){
-        turret1.setPosition(turDir2servPos(getTarget(1, 1)));
-        turret2.setPosition(turDir2servPos(getTarget(1, 1)));
+        turret1.setPosition(turDir2servPos(calcTargetHeading(calcTargetX(), calcTargetY())));
+        turret2.setPosition(turDir2servPos(calcTargetHeading(calcTargetX(), calcTargetY())));
     }
 }

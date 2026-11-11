@@ -21,10 +21,11 @@ public class Constants {
         public static final double HIVELX=150;
         public static final double HIVEY=40;
         public static final double SPEEDMULT=0.5;
-        public static final int HALFROTLIM=172;
-        public static final int FULLROTLIM=344;
+        public static final int HALFROTLIM=180;
+        public static final int FULLROTLIM=360;
         public static final double MODULARARITHEMETIC=1.000000000000000000000000000001;
         public static final double HIVELXPOS=140;
         public static final double HIVERXPOS=60;
+        public static final int TARGHEADOFFSET=90;
     }
 }

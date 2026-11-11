@@ -23,11 +23,13 @@ public class Shooter {
     public static double i=0;
     public static double velocity=0;
     private Odometry odometry;
+    private Turret turret;
     private double targetv=1470;
 
 
-    public Shooter(HardwareMap hardwareMap, Odometry odometry){
+    public Shooter(HardwareMap hardwareMap, Odometry odometry, Turret turret){
         this.odometry=odometry;
+        this.turret=turret;
         shooterMotor=hardwareMap.get(DcMotorEx.class, "shooter");
         shooterMotor2=hardwareMap.get(DcMotorEx.class, "xtra^");
         shooterMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
