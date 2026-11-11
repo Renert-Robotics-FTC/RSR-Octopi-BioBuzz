@@ -17,9 +17,14 @@ public class Constants {
     }
 
     public static final class TurretConstants{
-        public static final double hiveRx=50;
-        public static final double hiveLx=150;
-        public static final double hivey=40;
-        public static final double speedmult=0.5;
+        public static final double HIVERX =50;
+        public static final double HIVELX=150;
+        public static final double HIVEY=40;
+        public static final double SPEEDMULT=0.5;
+        public static final int HALFROTLIM=172;
+        public static final int FULLROTLIM=344;
+        public static final double MODULARARITHEMETIC=1.000000000000000000000000000001;
+        public static final double HIVELXPOS=140;
+        public static final double HIVERXPOS=60;
     }
 }
