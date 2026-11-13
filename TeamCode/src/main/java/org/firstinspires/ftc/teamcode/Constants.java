@@ -23,9 +23,15 @@ public class Constants {
         public static final double SPEEDMULT=0.5;
         public static final int HALFROTLIM=180;
         public static final int FULLROTLIM=360;
-        public static final double MODULARARITHEMETIC=1.000000000000000000000000000001;
+        public static final double MODULAR_ARITHEMETIC=1.000000000000000000000000000001;
         public static final double HIVELXPOS=140;
         public static final double HIVERXPOS=60;
         public static final int TARGHEADOFFSET=90;
+    }
+
+    public static final class IntakeConstants{
+        public static final double SENSOR_THRESHOLD = 50;
+        public static final double MAX_VOLTS = 3.3;
+        public static final double MAX_DISTANCE_MM = 1000.0;;
     }
 }

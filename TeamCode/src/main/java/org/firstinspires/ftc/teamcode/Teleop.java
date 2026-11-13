@@ -58,9 +58,12 @@ public class Teleop extends LinearOpMode{
             Timer.updateTimes();
             turret.updateTurret();
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
-            intake.setIntakeFlag(gamepad1.y || shooter.getShooterFlag() || !sensor.getState(1)||!sensor.getState(2)|| !sensor.getState(3));
+            intake.setIntakeFlag(gamepad1.y || shooter.getShooterFlag());
             intake.setReverse(gamepad1.x);
-            intake.setUnjam(gamepad1.b || sensor.getState(1)&&sensor.getState(2)&&sensor.getState(3)); //
+            intake.setUnjam(gamepad1.b || sensor.getIsFull());
+            if (sensor.getIsFilled()){
+                gamepad1.rumble(250);
+            }
 
             intake.updatePower();
             intake.setFlintakePos(gamepad1.right_bumper, gamepad1.left_bumper);
@@ -82,6 +85,9 @@ public class Teleop extends LinearOpMode{
             telemetry.addData("lastError", lastError);
             telemetry.addData("dTime", Timer.getdTime());
             telemetry.addData("d", (error-lastError)/Timer.getdTime()*Constants.ShooterConstants.KD);
+            for (int i=1; i<=3; i++){
+                telemetry.addData("sensor"+i, sensor.getState(i));
+            }
             telemetry.update();
 
             lastError=error;
