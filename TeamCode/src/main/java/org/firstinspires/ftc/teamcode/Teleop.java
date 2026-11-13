@@ -20,6 +20,7 @@ public class Teleop extends LinearOpMode{
         Shooter shooter=new Shooter(hardwareMap, odometry, turret);
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
+        BeamBreakSensor sensor=new BeamBreakSensor(hardwareMap);
 
         double lastError=0;
 
@@ -37,12 +38,6 @@ public class Teleop extends LinearOpMode{
             double forward = -Math.pow(gamepad1.left_stick_x, 3);
             double turn = Math.pow(gamepad1.right_stick_x, 3);
             double heading;
-
-            if (gamepad1.b) {
-                turn = driveSubsystem.alignR(hardwareMap, odometry.getHeading());
-            } else if (gamepad1.x) {
-                turn = driveSubsystem.alignL(hardwareMap, odometry.getHeading());
-            }
 
             driveSubsystem.drive(forward, strafe, turn);
 
@@ -63,15 +58,14 @@ public class Teleop extends LinearOpMode{
             Timer.updateTimes();
             turret.updateTurret();
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
-            intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
-            intake.setReverse(gamepad1.y);
-            intake.setUnjam(gamepad1.a);
-            intake.setFlintakePos(gamepad1.right_bumper, gamepad1.left_bumper);
+            intake.setIntakeFlag(gamepad1.y || shooter.getShooterFlag() || !sensor.getState(1)||!sensor.getState(2)|| !sensor.getState(3));
+            intake.setReverse(gamepad1.x);
+            intake.setUnjam(gamepad1.b || sensor.getState(1)&&sensor.getState(2)&&sensor.getState(3)); //
 
-
-            shooter.updatePower(Timer.getdTime());
-            transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.y);
             intake.updatePower();
+            intake.setFlintakePos(gamepad1.right_bumper, gamepad1.left_bumper);
+            shooter.updatePower(Timer.getdTime());
+            transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.x);
 
 
 

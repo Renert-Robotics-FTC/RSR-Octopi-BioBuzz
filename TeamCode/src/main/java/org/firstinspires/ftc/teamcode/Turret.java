@@ -32,7 +32,7 @@ public class Turret {
     public double calcTargetHeading(double hivex, double hivey){
         double dx=hivex-odometry.getxPos();
         double dy=hivey-odometry.getyPos();
-        double tpos= Math.toDegrees(Math.atan2(dy, dx)-odometry.getHeading())+Constants.TurretConstants.TARGHEADOFFSET;
+        double tpos= -Math.toDegrees(Math.atan2(dy, dx)-odometry.getHeading())+Constants.TurretConstants.TARGHEADOFFSET;
         return tpos;
     }
 

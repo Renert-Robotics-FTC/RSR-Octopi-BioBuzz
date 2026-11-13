@@ -70,7 +70,7 @@ public class DriveSubsystem {
         BL.setPower(0);
         BR.setPower(0);
     }
-    public double alignR(HardwareMap hardwareMap, double head){
+    /*public double alignR(HardwareMap hardwareMap, double head){
         double heading= (head>90)? head-360 : head;
         double error=(-90-heading)/180;
         double p=error*Constants.DriveConstants.HDP;
@@ -84,5 +84,5 @@ public class DriveSubsystem {
         double p=error*Constants.DriveConstants.HDP;
         double d=(error-lastError)/Timer.getdTime() * Constants.DriveConstants.HDD;
         return p+d;
-    }
+    }*/
 }

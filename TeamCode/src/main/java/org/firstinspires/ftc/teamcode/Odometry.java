@@ -22,7 +22,7 @@ public class Odometry {
 
     //methods for other classes to access odometry data
     public double getxPos(){
-        double xpos = odometry.getPosY(DistanceUnit.MM);
+        double xpos = -odometry.getPosY(DistanceUnit.MM);
         return xpos;
     }
     public double getyPos(){
