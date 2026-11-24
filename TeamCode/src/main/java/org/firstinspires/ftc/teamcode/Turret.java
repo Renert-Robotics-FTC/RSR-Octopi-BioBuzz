@@ -13,8 +13,8 @@ public class Turret {
 
     public Turret(HardwareMap hardwareMap, Odometry odometry) {
         this.odometry=odometry;
-        turret1 = hardwareMap.get(Servo.class, "turret1");
-        turret2 = hardwareMap.get(Servo.class, "turret2");
+        //turret1 = hardwareMap.get(Servo.class, "turret1");
+        //turret2 = hardwareMap.get(Servo.class, "turret2");
     }
 
     public double calcTargetX(){

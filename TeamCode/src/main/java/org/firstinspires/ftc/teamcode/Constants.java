@@ -14,6 +14,8 @@ public class Constants {
         public static final double KP=0.046;
         public static final double KD=0.9;
         public static final double FF=0.7;
+        public static final double HIVE_HEIGHT=230;
+        public static final double HIVE_SPEED=20;
     }
 
     public static final class TurretConstants{

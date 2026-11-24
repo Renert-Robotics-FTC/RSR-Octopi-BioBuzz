@@ -15,7 +15,7 @@ public class Intake {
     public Intake(HardwareMap hardwareMap){
         intakeMotor=hardwareMap.get(DcMotor.class, "intake");
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        flintake=hardwareMap.get(Servo.class, "flintake");
+        //flintake=hardwareMap.get(Servo.class, "flintake");
     }
     public boolean getIntakeFlag(){
         return intakeFlag;
@@ -46,7 +46,7 @@ public class Intake {
             intakeMotor.setPower(0);
         }
     }
-    public void setFlintakePos(boolean flintakeFlag,boolean stoppaoppaFlag){
+    /*public void setFlintakePos(boolean flintakeFlag,boolean stoppaoppaFlag){
         if (flintakeFlag==true) {
             flintake.setPosition(1);
             intakeMotor.setPower(1);
@@ -57,5 +57,5 @@ public class Intake {
             return;
         }
         flintake.setPosition(0);
-    }
+    }*/
 }

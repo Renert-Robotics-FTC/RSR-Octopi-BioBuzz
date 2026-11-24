@@ -19,12 +19,14 @@ public class Shooter {
     private DcMotorEx shooterMotor2;
     private Servo servoBlocker;
     private double lastError=0;
+    private double lastError2=0;
     private double lastPosition=0;
     public static double i=0;
     public static double velocity=0;
     private Odometry odometry;
     private Turret turret;
     private double targetv=1470;
+    private double d=0;
 
 
     public Shooter(HardwareMap hardwareMap, Odometry odometry, Turret turret){
@@ -60,8 +62,15 @@ public class Shooter {
         lastError=error;
         //i+=dTime*error;
         return p+d+Constants.ShooterConstants.FF;
-
-
+    }
+    public double calcShooter2PID(double dTime){
+        double position=shooterMotor2.getCurrentPosition();
+        double error=-targetv-shooterMotor2.getVelocity();
+        double p=error*Constants.ShooterConstants.KP;
+        double d=(error-lastError2)/dTime*Constants.ShooterConstants.KD;
+        lastError2=error;
+        //i+=dTime*error;
+        return p+d+Constants.ShooterConstants.FF;
     }
     public void updatePower(/*double distance, int velocity*/ double dTime){
         /*if ((2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))<=0){
@@ -79,6 +88,12 @@ public class Shooter {
         }
         //shooterMotor.setPower(shooterMotor.getVelocity() < velocity ? 1:0);
         shooterMotor.setPower(calcShooterPID(dTime));
+        shooterMotor2.setPower(calcShooterPID(dTime));
+    }
+
+    public void updateShooterAngle(){
+        d=Math.sqrt(Math.pow(odometry.getxPos(), 2)+Math.pow(odometry.getyPos(), 2));
+
     }
 
     public double getPower(){
