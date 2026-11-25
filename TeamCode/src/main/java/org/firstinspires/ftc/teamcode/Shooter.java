@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Const;
+
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.net.ssl.StandardConstants;
@@ -18,6 +20,7 @@ public class Shooter {
     private DcMotorEx shooterMotor;
     private DcMotorEx shooterMotor2;
     private Servo servoBlocker;
+    private Servo hood;
     private double lastError=0;
     private double lastError2=0;
     private double lastPosition=0;
@@ -29,13 +32,13 @@ public class Shooter {
     private double d=0;
 
 
-    public Shooter(HardwareMap hardwareMap, Odometry odometry, Turret turret){
+    public Shooter(HardwareMap hardwareMap, Odometry odometry){
         this.odometry=odometry;
-        this.turret=turret;
         shooterMotor=hardwareMap.get(DcMotorEx.class, "shooter");
         shooterMotor2=hardwareMap.get(DcMotorEx.class, "xtra^");
         shooterMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
         servoBlocker=hardwareMap.get(Servo.class, "blocker");
+        hood=hardwareMap.get(Servo.class, "door");
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shooterMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -54,6 +57,7 @@ public class Shooter {
     }
 
     public double calcShooterPID(double dTime){
+        targetv=calcShooterSpeed();
         double position=shooterMotor.getCurrentPosition();
         velocity=(position-lastPosition)/dTime*1000;
         double error=targetv-shooterMotor.getVelocity();
@@ -87,13 +91,20 @@ public class Shooter {
             servoBlocker.setPosition(0);
         }
         //shooterMotor.setPower(shooterMotor.getVelocity() < velocity ? 1:0);
-        shooterMotor.setPower(calcShooterPID(dTime));
-        shooterMotor2.setPower(calcShooterPID(dTime));
+        shooterMotor.setPower(/*calcShooterPID(dTime)*Constants.ShooterConstants.LEFT_MOTOR_RATIO*/0.2);
+        //shooterMotor2.setPower(calcShooterPID(dTime)*Constants.ShooterConstants.RIGHT_MOTOR_RATIO);
     }
 
     public void updateShooterAngle(){
         d=Math.sqrt(Math.pow(odometry.getxPos(), 2)+Math.pow(odometry.getyPos(), 2));
+        double shotAngle=Math.atan2(Constants.ShooterConstants.HIVE_HEIGHT, d);
+        hood.setPosition(1-(90-shotAngle)/180);
+    }
 
+    public double calcShooterSpeed(){
+        d=Math.sqrt(Math.pow(odometry.getxPos(), 2)+Math.pow(odometry.getyPos(), 2));
+        double xspeed=d/Constants.ShooterConstants.HIVEX_TIME;
+        return Math.sqrt(Math.pow(xspeed, 2)+Math.pow(Constants.ShooterConstants.HIVEY_SPEED, 2))* Constants.ShooterConstants.TpS2MpS;
     }
 
     public double getPower(){

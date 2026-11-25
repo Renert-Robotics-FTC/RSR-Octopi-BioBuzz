@@ -7,7 +7,7 @@ public class BeamBreakSensor {
 
     private AnalogInput sensor1;
     private AnalogInput sensor2;
-    private AnalogInput sensor3;
+    private DigitalChannel sensor3;
     private AnalogInput sensor4;
 
     private boolean lastState = true;
@@ -20,8 +20,8 @@ public class BeamBreakSensor {
         //sensor1.setMode(DigitalChannel.Mode.INPUT);
         sensor2 = hardwareMap.get(AnalogInput.class, "intakeds2");
         //sensor2.setMode(DigitalChannel.Mode.INPUT);
-        sensor3 = hardwareMap.get(AnalogInput.class, "intakeds3");
-        //sensor3.setMode(DigitalChannel.Mode.INPUT);
+        sensor3 = hardwareMap.get(DigitalChannel.class, "intakeds3");
+        sensor3.setMode(DigitalChannel.Mode.INPUT);
         //sensor4 = hardwareMap.get(AnalogInput.class, "intakeds4");
         //sensor4.setMode(DigitalChannel.Mode.INPUT);
     }
@@ -36,7 +36,8 @@ public class BeamBreakSensor {
                 distance = (sensor2.getVoltage() / Constants.IntakeConstants.MAX_VOLTS) * Constants.IntakeConstants.MAX_DISTANCE_MM;
                 break;
             case 3:
-                distance = (sensor3.getVoltage() / Constants.IntakeConstants.MAX_VOLTS) * Constants.IntakeConstants.MAX_DISTANCE_MM;
+                distance=1;
+                //distance = (sensor3.getVoltage() / Constants.IntakeConstants.MAX_VOLTS) * Constants.IntakeConstants.MAX_DISTANCE_MM;
                 break;
             case 4:
                 //distance=sensor4.getVoltage() / Constants.IntakeConstants.MAX_VOLTS * Constants.IntakeConstants.MAX_DISTANCE_MM;

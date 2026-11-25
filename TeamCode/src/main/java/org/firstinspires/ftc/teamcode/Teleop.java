@@ -17,7 +17,7 @@ public class Teleop extends LinearOpMode{
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, odometry);
 
         Turret turret=new Turret(hardwareMap, odometry);
-        Shooter shooter=new Shooter(hardwareMap, odometry, turret);
+        Shooter shooter=new Shooter(hardwareMap, odometry);
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
         BeamBreakSensor sensor=new BeamBreakSensor(hardwareMap);
@@ -34,8 +34,8 @@ public class Teleop extends LinearOpMode{
 
         while (opModeIsActive()) {
             odometry.updateOdometry();
-            double strafe = Math.pow(gamepad1.left_stick_y, 3);
-            double forward = -Math.pow(gamepad1.left_stick_x, 3);
+            double strafe = -Math.pow(gamepad1.left_stick_y, 3);
+            double forward = Math.pow(gamepad1.left_stick_x, 3);
             double turn = Math.pow(gamepad1.right_stick_x, 3);
             double heading;
 

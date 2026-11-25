@@ -20,7 +20,7 @@ public class Auto extends LinearOpMode{
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, odometry);
 
         Turret turret = new Turret(hardwareMap, odometry);
-        Shooter shooter=new Shooter(hardwareMap, odometry, turret);
+        Shooter shooter=new Shooter(hardwareMap, odometry);
         Intake intake =new Intake(hardwareMap);
         Transfer transfer=new Transfer(hardwareMap);
 

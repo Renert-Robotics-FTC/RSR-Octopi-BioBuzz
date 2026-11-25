@@ -41,7 +41,8 @@ public class Turret {
     }
 
     public void updateTurret(){
-        turret1.setPosition(turDir2servPos(calcTargetHeading(calcTargetX(), calcTargetY())));
-        turret2.setPosition(turDir2servPos(calcTargetHeading(calcTargetX(), calcTargetY())));
+        hivex=1;
+        //turret1.setPosition(turDir2servPos(calcTargetHeading(calcTargetX(), calcTargetY())));
+        //turret2.setPosition(turDir2servPos(calcTargetHeading(calcTargetX(), calcTargetY())));
     }
 }
