@@ -26,6 +26,7 @@ public class Shooter {
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+
     public boolean getShooterFlag(){
         return shooterFlag;
     }
