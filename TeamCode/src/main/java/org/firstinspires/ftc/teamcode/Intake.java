@@ -14,7 +14,7 @@ public class Intake {
 
     public Intake(HardwareMap hardwareMap){
         intakeMotor=hardwareMap.get(DcMotor.class, "intake");
-        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         //flintake=hardwareMap.get(Servo.class, "flintake");
     }
     public boolean getIntakeFlag(){

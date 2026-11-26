@@ -36,7 +36,7 @@ public class Teleop extends LinearOpMode{
             odometry.updateOdometry();
             double strafe = -Math.pow(gamepad1.left_stick_y, 3);
             double forward = Math.pow(gamepad1.left_stick_x, 3);
-            double turn = Math.pow(gamepad1.right_stick_x, 3);
+            double turn = gamepad1.right_stick_x;
             double heading;
 
             driveSubsystem.drive(forward, strafe, turn);
@@ -77,8 +77,9 @@ public class Teleop extends LinearOpMode{
             telemetry.addData("ypos", odometry.getyPos());
             telemetry.addData("heading", odometry.getHeading());
             telemetry.addData("power", shooter.getPower());
+            telemetry.addData("power2", shooter.getPower2());
             telemetry.addData("shooter velocity", shooter.getShooterVelocity());
-            telemetry.addData("velocity", Shooter.velocity);
+            //telemetry.addData("velocity", Shooter.velocity);
             telemetry.addData("shooterflag", shooter.getShooterFlag());
             telemetry.addData("error", error);
             telemetry.addData("p",error*Constants.ShooterConstants.KP);

@@ -16,9 +16,9 @@ public class Constants {
         public static final double FF=0.7;
         public static final double HIVE_HEIGHT=230;
         public static final double HIVEY_SPEED=20;
-        public static final double LEFT_MOTOR_RATIO=1;
-        public static final double RIGHT_MOTOR_RATIO=1;
-        public static final double HIVEX_TIME=1;
+        public static final double RIGHT_MOTOR_RATIO=26.0/28.0;
+        public static final double LEFT_MOTOR_RATIO=18.0/28.0;
+        public static final double HIVEX_TIME=.25;
         public static final double FLIGHT_TIME=Math.sqrt(Math.pow(HIVE_HEIGHT/HIVEY_SPEED, 2)+Math.pow(HIVEX_TIME, 2));
         public static final double TpS2MpS=123.78;
     }
