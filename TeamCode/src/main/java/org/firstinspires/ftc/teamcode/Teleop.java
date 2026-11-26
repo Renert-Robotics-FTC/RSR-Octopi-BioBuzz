@@ -65,7 +65,7 @@ public class Teleop extends LinearOpMode{
                 gamepad1.rumble(250);
             }
 
-            intake.updatePower();
+            //intake.updatePower();
             //intake.setFlintakePos(gamepad1.right_bumper, gamepad1.left_bumper);
             shooter.updatePower(Timer.getdTime());
             transfer.updatePower(shooter.getShooterFlag() || intake.getIntakeFlag(), gamepad1.x);

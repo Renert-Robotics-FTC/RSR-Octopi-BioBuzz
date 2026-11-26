@@ -37,7 +37,7 @@ public class Shooter {
         this.odometry=odometry;
         shooterMotor=hardwareMap.get(DcMotorEx.class, "shooter");
         shooterMotor2=hardwareMap.get(DcMotorEx.class, "xtra^");
-        shooterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooterMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
         servoBlocker=hardwareMap.get(Servo.class, "blocker");
         hood=hardwareMap.get(Servo.class, "door");
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -99,7 +99,7 @@ public class Shooter {
         //vel=-calcShooterPID(dTime);
         targetv=1471;
         if (shooterMotor.getVelocity()<=targetv) {
-            vel = -1;
+            vel = 1;
         }else{vel=0;}
 
         shooterMotor.setPower(vel);//vel*Constants.ShooterConstants.LEFT_MOTOR_RATIO);

@@ -13,7 +13,7 @@ public class Intake {
     private static boolean unjam=false;
 
     public Intake(HardwareMap hardwareMap){
-        intakeMotor=hardwareMap.get(DcMotor.class, "intake");
+        //intakeMotor=hardwareMap.get(DcMotor.class, "intake");
         //intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         //flintake=hardwareMap.get(Servo.class, "flintake");
     }
