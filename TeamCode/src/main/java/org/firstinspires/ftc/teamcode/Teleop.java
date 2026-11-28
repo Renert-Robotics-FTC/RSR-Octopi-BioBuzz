@@ -34,8 +34,8 @@ public class Teleop extends LinearOpMode{
 
         while (opModeIsActive()) {
             odometry.updateOdometry();
-            double strafe = -Math.pow(gamepad1.left_stick_y, 3);
-            double forward = Math.pow(gamepad1.left_stick_x, 3);
+            double strafe = -gamepad1.left_stick_y;
+            double forward = -gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
             double heading;
 
@@ -58,7 +58,7 @@ public class Teleop extends LinearOpMode{
             Timer.updateTimes();
             turret.updateTurret();
             shooter.setShooterFlag(gamepad1.right_trigger_pressed);
-            intake.setIntakeFlag(gamepad1.y || shooter.getShooterFlag());
+            intake.setIntakeFlag(gamepad1.left_trigger_pressed || shooter.getShooterFlag());
             intake.setReverse(gamepad1.x);
             intake.setUnjam(gamepad1.b || sensor.getIsFull());
             if (sensor.getIsFilled()){
@@ -72,13 +72,15 @@ public class Teleop extends LinearOpMode{
 
 
 
+
             double error=1421-shooter.getShooterVelocity();
             telemetry.addData("xpos", odometry.getxPos());
             telemetry.addData("ypos", odometry.getyPos());
             telemetry.addData("heading", odometry.getHeading());
             telemetry.addData("power", shooter.getPower());
             telemetry.addData("power2", shooter.getPower2());
-            telemetry.addData("shooter velocity", shooter.getShooterVelocity());
+            telemetry.addData("shooter velocity1", shooter.getShooterVelocity());
+            telemetry.addData("svel 2 ", shooter.getShooterVelocity2());
             //telemetry.addData("velocity", Shooter.velocity);
             telemetry.addData("shooterflag", shooter.getShooterFlag());
             telemetry.addData("error", error);

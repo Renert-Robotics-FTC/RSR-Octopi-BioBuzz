@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import java.sql.Time;
+
 public class Transfer {
     private DcMotor transferMotor;
     private DcMotor tMot;

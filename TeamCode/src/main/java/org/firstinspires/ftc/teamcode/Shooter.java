@@ -41,8 +41,9 @@ public class Shooter {
         servoBlocker=hardwareMap.get(Servo.class, "blocker");
         hood=hardwareMap.get(Servo.class, "door");
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shooterMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        shooterMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooterMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooterMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
@@ -56,6 +57,9 @@ public class Shooter {
 
     public double getShooterVelocity(){
         return shooterMotor.getVelocity();
+    }
+    public double getShooterVelocity2(){
+        return shooterMotor2.getVelocity();
     }
 
     public double calcShooterPID(double dTime){
@@ -86,20 +90,20 @@ public class Shooter {
             shooterMotor.setPower(0);
             return;
         }*/
-        if(shooterFlag==true){
+        if(shooterFlag){
             //shooterMotor.setPower(Range.clip(Constants.ShooterConstants.MAX_EXIT_SPEED*distance*Math.sqrt(9.81/(2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)*(distance*Math.sin(Constants.ShooterConstants.SHOOTER_ANGLE)-1.2*Math.cos(Constants.ShooterConstants.SHOOTER_ANGLE)))), 0, 1));
             //servoBlocker.setDirection(Servo.Direction.REVERSE);
-            servoBlocker.setPosition(0.3);
+            servoBlocker.setPosition(0.85);
         }
         else {
             //servoBlocker.setDirection(Servo.Direction.FORWARD);
-            servoBlocker.setPosition(0);
+            servoBlocker.setPosition(1);
         }
         //shooterMotor.setPower(shooterMotor.getVelocity() < velocity ? 1:0);
         //vel=-calcShooterPID(dTime);
         targetv=1471;
-        if (shooterMotor.getVelocity()<=targetv) {
-            vel = 1;
+        if (shooterMotor2.getVelocity()<=1471) {
+            vel = -1;
         }else{vel=0;}
 
         shooterMotor.setPower(vel);//vel*Constants.ShooterConstants.LEFT_MOTOR_RATIO);
